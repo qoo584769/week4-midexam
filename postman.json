@@ -1,0 +1,66 @@
+{
+	"info": {
+		"_postman_id": "0f7b63fa-24f1-4ef6-93ba-455f7525bb5a",
+		"name": "week4-mid-exam",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://week4-mid-exam.herokuapp.com/server/user?timeSort=desc",
+					"protocol": "https",
+					"host": [
+						"week4-mid-exam",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"server",
+						"user"
+					],
+					"query": [
+						{
+							"key": "timeSort",
+							"value": "desc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userid\":\"626bc82b058f1f4cd78c26d2\",\r\n    \"content\":\"第123個使用者425255252\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://week4-mid-exam.herokuapp.com/server/user",
+					"protocol": "https",
+					"host": [
+						"week4-mid-exam",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"server",
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
