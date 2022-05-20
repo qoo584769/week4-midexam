@@ -1,20 +1,27 @@
 {
 	"info": {
 		"_postman_id": "0f7b63fa-24f1-4ef6-93ba-455f7525bb5a",
-		"name": "week4-mid-exam",
+		"name": "week5-error-handler",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "get user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "https://week4-mid-exam.herokuapp.com/server/user?timeSort=desc",
+					"raw": "https://week5-errorhandler.herokuapp.com/server/user?timeSort=desc",
 					"protocol": "https",
 					"host": [
-						"week4-mid-exam",
+						"week5-errorhandler",
 						"herokuapp",
 						"com"
 					],
@@ -39,7 +46,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userid\":\"626bc82b058f1f4cd78c26d2\",\r\n    \"content\":\"第123個使用者425255252\"\r\n}",
+					"raw": "{\r\n    \"userid\":\"626bc7bbdbd4bcfb650a24b4\",\r\n    \"content\":\"第1個使用者1100001\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -47,10 +54,10 @@
 					}
 				},
 				"url": {
-					"raw": "https://week4-mid-exam.herokuapp.com/server/user",
+					"raw": "https://week5-errorhandler.herokuapp.com/server/user",
 					"protocol": "https",
 					"host": [
-						"week4-mid-exam",
+						"week5-errorhandler",
 						"herokuapp",
 						"com"
 					],
