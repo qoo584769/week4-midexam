@@ -41,7 +41,7 @@ app.use((req, res, next) => {
 
 // 正式環境錯誤訊息
 const resErrProd = (err, res) => {
-  if (err.isOprational) {
+  if (err.isOperational) {
     return res
       .status(err.statusCode)
       .json({ status: err.statusCode, message: err.message });
@@ -71,7 +71,7 @@ app.use((err, req, res, next) => {
   // 正式環境錯誤
   if(err.name === 'ValidationError'){
     // 捕捉mongoose錯誤
-    err.message = "資料欄位未填寫正確，請重新輸入！"
+    err.message = "ID錯誤"
     err.isOperational = true;
     return resErrProd(err, res)
   }
@@ -82,7 +82,7 @@ app.use((err, req, res, next) => {
     }
     return res.status(500).send('程式出現問題，請稍後再試');
   }
-  next();
+  return resErrProd(err, res)
 });
 
 // 無法捕捉的catch 

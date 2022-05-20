@@ -40,18 +40,18 @@ const postPost = async (req, res,next) => {
     }
     // 新增新貼文
     const result = await postDB(messageModel, data);
-    console.log(result);
+    // console.log(result);
 
-    if (result.errors !== undefined) {
-      HttpMethod(
-        res,
-        404,
-        'false',
-        result.errors.type.properties.message,
-        '資料新增失敗'
-      );
-      return;
-    }
+    // if (result.errors !== undefined) {
+      // return next(appError(400,'id錯誤 發文失敗',next));
+      // HttpMethod(
+      //   res,
+      //   404,
+      //   'false',
+      //   result.errors.type.properties.message,
+      //   '資料新增失敗'
+      // );
+    // }
     HttpMethod(res, 200, 'success', result, '資料新增成功');
 };
 

@@ -17,7 +17,7 @@ async function getDB(schemaModel, modelData = {}) {
 }
 
 async function postDB(schemaModel, modelData) {
-  try {
+  // try {
     // 新增貼文
     const newPost = await schemaModel.create(modelData);
     // 新增貼文成功會把貼文ID加入發文者的貼文裡面
@@ -28,10 +28,10 @@ async function postDB(schemaModel, modelData) {
     );
     console.log('DB資料新增成功');
     return addMsgIdInUser;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
+  // } catch (error) {
+  //   console.log(error);
+  //   return error;
+  // }
 }
 async function createUserDB(schemaModel, modelData) {
   try {
