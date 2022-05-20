@@ -3,17 +3,12 @@ const { userModel } = require('../models/userModel');
 
 // 用傳進來的model去資料庫搜尋
 async function getDB(schemaModel, modelData = {}) {
-  try {
     // 這邊直接寫死關聯訊息集合
     const result = await schemaModel
       .find(modelData.q)
       .populate({ path: 'messageid', select: 'name shot createAt messageid' })
       .sort(modelData.timeSort);
     return result;
-  } catch (error) {
-    console.log('查詢失敗');
-    console.log(error);
-  }
 }
 
 async function postDB(schemaModel, modelData) {
