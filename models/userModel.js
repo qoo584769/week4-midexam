@@ -23,6 +23,9 @@ const userSchema = new Schema({
       ref: 'message',
     },
   ],
+},
+{
+  versionKey: false,
 });
 
 const userModel = model('user', userSchema);

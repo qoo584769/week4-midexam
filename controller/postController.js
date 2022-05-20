@@ -7,8 +7,10 @@ const { messageModel } = require('../models/messageModel');
 // repl
 const { getDB, postDB, createUserDB } = require('../repository/postRepl');
 
-const getPost = async (req, res) => {
-  try {
+// 丟出錯誤
+const appError = require('../utils/appErr');
+
+const getPost = async (req, res,next) => {
     const timeSort = req.query.timeSort == 'asc' ? 'createdAt' : '-createdAt';
     const q =
       req.query.q !== undefined ? { content: new RegExp(req.query.q) } : {};
@@ -19,14 +21,9 @@ const getPost = async (req, res) => {
     const userRes = await getDB(userModel, data);
 
     HttpMethod(res, 200, 'success', userRes, '資料查詢成功');
-  } catch (error) {
-    HttpMethod(res, 404, 'false', error, '資料查詢失敗');
-    console.log('查詢失敗');
-  }
 };
 
-const postPost = async (req, res) => {
-  try {
+const postPost = async (req, res,next) => {
     // 新增測試使用者
     // const data = {
     //   userid: req.body.name,
@@ -38,6 +35,9 @@ const postPost = async (req, res) => {
       userid: req.body.userid,
       content: req.body.content,
     };
+    if(data.content === undefined){
+      next(appError(400,'貼文內容未填寫',next));
+    }
     // 新增新貼文
     const result = await postDB(messageModel, data);
     console.log(result);
@@ -53,11 +53,11 @@ const postPost = async (req, res) => {
       return;
     }
     HttpMethod(res, 200, 'success', result, '資料新增成功');
-  } catch (error) {
-    console.log(error);
-    HttpMethod(res, 404, 'false', error, '資料格式錯誤');
-  }
 };
+
+
+
+
 
 // const editPost = async (req, res) => {
 //   try {
