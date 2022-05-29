@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "get user",
+			"name": "取的全部貼文",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -18,7 +18,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://week5-errorhandler.herokuapp.com/server/user?timeSort=desc",
+					"raw": "https://week5-errorhandler.herokuapp.com/server/posts?timeSort=desc",
 					"protocol": "https",
 					"host": [
 						"week5-errorhandler",
@@ -27,7 +27,7 @@
 					],
 					"path": [
 						"server",
-						"user"
+						"posts"
 					],
 					"query": [
 						{
@@ -40,13 +40,13 @@
 			"response": []
 		},
 		{
-			"name": "post user",
+			"name": "發文",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userid\":\"626bc7bbdbd4bcfb650a24b4\",\r\n    \"content\":\"第1個使用者1100001\"\r\n}",
+					"raw": "{\r\n    \"userid\":\"62936415a196ed6f77169e82\",\r\n    \"content\":\"第002使用者發文\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -54,7 +54,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://week5-errorhandler.herokuapp.com/server/user",
+					"raw": "https://week5-errorhandler.herokuapp.com/server/posts",
 					"protocol": "https",
 					"host": [
 						"week5-errorhandler",
@@ -63,7 +63,150 @@
 					],
 					"path": [
 						"server",
-						"user"
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "註冊",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"user002\",\r\n    \"email\":\"user002@gmail.com\",\r\n    \"password\":\"user002\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://week5-errorhandler.herokuapp.com/server/users/signup",
+					"protocol": "https",
+					"host": [
+						"week5-errorhandler",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"server",
+						"users",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "登入",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"user002@gmail.com\",\r\n    \"password\":\"user002\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://week5-errorhandler.herokuapp.com/server/users/login",
+					"protocol": "https",
+					"host": [
+						"week5-errorhandler",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"server",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "編輯貼文",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"postid\":\"62936448a196ed6f77169e8a\",\r\n    \"content\":\"第002使用者編輯發文\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://week5-errorhandler.herokuapp.com/server/posts",
+					"protocol": "https",
+					"host": [
+						"week5-errorhandler",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"server",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刪除單則貼文",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"postid\":\"62936448a196ed6f77169e8a\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://week5-errorhandler.herokuapp.com/server/posts",
+					"protocol": "https",
+					"host": [
+						"week5-errorhandler",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"server",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刪除全部貼文",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://week5-errorhandler.herokuapp.com/server/delAllPosts",
+					"protocol": "https",
+					"host": [
+						"week5-errorhandler",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"server",
+						"delAllPosts"
 					]
 				}
 			},
