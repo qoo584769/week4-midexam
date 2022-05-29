@@ -12,11 +12,11 @@ async function getDB(schemaModel, modelData = {}) {
   return result
 }
 
-async function postDB(modelData) {  
-    const user = await userModel.findOne({_id:modelData.userid})
-    if(!user){
-      return {status:false,message:'使用者未註冊'}
-    }
+async function postDB(modelData) {
+  const user = await userModel.findOne({ _id: modelData.userid })
+  if (!user) {
+    return { status: false, message: '使用者未註冊' }
+  }
   // 新增貼文
   const newPost = await postModel.create(modelData)
   // 新增貼文成功會把貼文ID加入發文者的貼文裡面
@@ -26,7 +26,7 @@ async function postDB(modelData) {
     { new: true }
   )
   console.log('DB資料新增成功')
-  return addMsgIdInUser 
+  return addMsgIdInUser
 }
 
 async function patchDB(modelData) {
@@ -41,19 +41,21 @@ async function patchDB(modelData) {
 }
 // 直接刪除 未使用軟刪除
 async function deleteOneDB(id) {
-    const result = await postModel.findOneAndDelete({ _id: id })
-    console.log(result);
-    // 刪除貼文成功會把貼文ID從發文者的貼文裡面刪除
+  const result = await postModel.findOneAndDelete({ _id: id })
+  if (!result) {
+    return { status: false, message: '查無此貼文' }
+  }
+  // 刪除貼文成功會把貼文ID從發文者的貼文裡面刪除
   const pullMsgIdFromUser = await userModel.findByIdAndUpdate(
     { _id: result.userid },
     { $pull: { postid: result._id } },
     { new: true }
   )
-    return pullMsgIdFromUser
+  return pullMsgIdFromUser
 }
 async function deleteAllDB() {
-    const result = await postModel.deleteMany()
-    return result  
+  const result = await postModel.deleteMany()
+  return result
 }
 
 module.exports = {
