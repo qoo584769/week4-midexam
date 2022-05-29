@@ -1,110 +1,91 @@
-const { HttpMethod } = require('../HttpFun.js');
+const { HttpMethod } = require('../HttpFun.js')
 
 // model
-const { userModel } = require('../models/userModel');
-const { messageModel } = require('../models/messageModel');
+const { userModel } = require('../models/userModel')
+const { postModel } = require('../models/postModel')
 
 // repl
-const { getDB, postDB, createUserDB } = require('../repository/postRepl');
+const {
+  getDB,
+  postDB,
+  patchDB,
+  deleteOneDB,
+  deleteAllDB,
+} = require('../repository/postRepl')
 
 // 丟出錯誤
-const appError = require('../utils/appErr');
+const appError = require('../utils/appErr')
 
-const getPost = async (req, res,next) => {
-    const timeSort = req.query.timeSort == 'asc' ? 'createdAt' : '-createdAt';
-    const q =
-      req.query.q !== undefined ? { content: new RegExp(req.query.q) } : {};
-    const data = {
-      timeSort,
-      q,
-    };
-    const userRes = await getDB(userModel, data);
+const getPost = async (req, res, next) => {
+  const timeSort = req.query.timeSort == 'asc' ? 'createdAt' : '-createdAt'
+  const q =
+    req.query.q !== undefined ? { content: new RegExp(req.query.q) } : {}
+  const data = {
+    timeSort,
+    q,
+  }
+  const userRes = await getDB(postModel, data)
 
-    HttpMethod(res, 200, 'success', userRes, '資料查詢成功');
-};
+  HttpMethod(res, 200, 'success', userRes, '資料查詢成功')
+}
 
-const postPost = async (req, res,next) => {
-    // 新增測試使用者
-    // const data = {
-    //   userid: req.body.name,
-    //   email: req.body.email,
-    // };
-    // const result = await createUserDB(userModel,data)
-    
-    const data = {
-      userid: req.body.userid,
-      content: req.body.content,
-    };
-    if(data.content === undefined){
-      next(appError(400,'貼文內容未填寫',next));
-    }
-    // 新增新貼文
-    const result = await postDB(messageModel, data);
-    // console.log(result);
+const postPost = async (req, res, next) => {
+  const data = {
+    userid: req.body.userid,
+    content: req.body.content,
+    image: req.body.image || '圖片路徑',
+  }
+  if (data.content === undefined) {
+    return next(appError(400, '貼文內容未填寫', next))
+  }
+  // 新增新貼文
+  const result = await postDB(data)
+  if (result.status === false) {
+    return next(appError(400, result.message, next))
+  }
+  HttpMethod(res, 200, 'success', result, '資料新增成功')
+}
 
-    // if (result.errors !== undefined) {
-      // return next(appError(400,'id錯誤 發文失敗',next));
-      // HttpMethod(
-      //   res,
-      //   404,
-      //   'false',
-      //   result.errors.type.properties.message,
-      //   '資料新增失敗'
-      // );
-    // }
-    HttpMethod(res, 200, 'success', result, '資料新增成功');
-};
+const editPost = async (req, res, next) => {
+  const { postid, content, image } = req.body
+  if (!postid || !content) {
+    return next(appError(400, '貼文ID 貼文內容為必填', next))
+  }
+  const data = {
+    _id: postid,
+    content,
+    image: image || '圖片路徑',
+  }
+  const result = await patchDB(data)
+  if (!result) {
+    return next(appError(400, '查無此貼文', next))
+  }
+  return HttpMethod(res, 200, 'success', result, '貼文編輯成功')
+}
 
+const deleteOnePost = async (req, res, next) => {
+  const { postid } = req.body
+  if (!postid) {
+    return next(appError(400, '貼文ID 為必填', next))
+  }
+  const result = await deleteOneDB(postid)
+  return HttpMethod(
+    res,
+    200,
+    'success',
+    result,
+    `貼文 ID : ${postid}  刪除成功`
+  )
+}
+const deleteAllPost = async (req, res, next) => {
+  const result = await deleteAllDB()
+  return HttpMethod(res, 200, 'success', result, '刪除全部貼文成功')
+}
 
-
-
-
-// const editPost = async (req, res) => {
-//   try {
-//     let data = await buffParse(req);
-//     const id = req.url.split('/').pop();
-//     data.id = id;
-//     const result = await modelOperator(req.method, data);
-//     HttpMethod(res, 200, 'success', result, '資料更新成功');
-//   } catch (error) {
-//     console.log(error);
-//     HttpMethod(res, 404, 'false', error, '資料格式錯誤');
-//   }
-// };
-// const deleteOnePost = async (req, res) => {
-//   try {
-//     const id = req.url.split('/').pop();
-//     const result = await modelOperator(req.method, id);
-//     if (result.message) {
-//       HttpMethod(res, 404, 'false', '資料ID錯誤', '刪除單筆資料失敗');
-//       return;
-//     }
-//     HttpMethod(res, 200, 'success', result, '刪除單筆資料成功');
-//   } catch (error) {
-//     HttpMethod(res, 404, 'false', error, '資料不存在');
-//   }
-// };
-// const deleteAllPost = async (req, res) => {
-//   try {
-//     const result = await modelOperator(req.method, '刪除全部');
-//     HttpMethod(res, 200, 'success', result, '刪除多筆資料成功');
-//   } catch (error) {
-//     console.log(error);
-//     HttpMethod(res, 404, 'false', error, '刪除多筆資料失敗');
-//   }
-// };
-// const options = async (req, res) => {
-//   HttpMethod(res, 200, 'true', '連線測試', '連線成功');
-// };
-// const noRoute = async (req, res) => {
-//   HttpMethod(res, 404, 'false', '連線測試', '查無此路由');
-// };
 module.exports = {
   getPost,
   postPost,
-  // editPost,
-  // deleteOnePost,
-  // deleteAllPost,
-  // options,
-  // noRoute,
-};
+  editPost,
+  deleteOnePost,
+  deleteAllPost,
+}
