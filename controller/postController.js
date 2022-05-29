@@ -69,6 +69,9 @@ const deleteOnePost = async (req, res, next) => {
     return next(appError(400, '貼文ID 為必填', next))
   }
   const result = await deleteOneDB(postid)
+  if(!result){
+    return next(appError(400, '查無此貼文', next))    
+  }
   return HttpMethod(
     res,
     200,
